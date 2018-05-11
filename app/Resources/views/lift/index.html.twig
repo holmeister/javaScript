@@ -70,13 +70,24 @@
     {{ parent() }}
 
     <script>
-        $(document).ready(function () {
-            var $table = $('.js-rep-log-table');
 
-            $table.find('.js-delete-rep-log').on('click', function (e) {
+        var RepLogApp = {
+            initialize: function ($wrapper) {
+                this.$wrapper = $wrapper;
+
+                this.$wrapper.find('.js-delete-rep-log').on(
+                    'click',
+                    this.$wrapper.handleRepLogDelete
+                );
+
+                this.$wrapper.find('tbody tr').on(
+                    'click',
+                    this.$wrapper.handleRowClick
+                );
+            },
+
+            handleRepLogDelete: function (e) {
                 e.preventDefault();
-                // e.stopPropagation();
-                // e.target.className += ' text-danger';
 
                 $(this).addClass('text-danger');
                 $(this).find('.fa')
@@ -84,12 +95,10 @@
                     .addClass('fa-spinner')
                     .addClass('fa-spin');
 
-
-
-//                var deleteUrl = $(this).data('url');
-                var deleteUrl = $(this)[0].dataset.url;
+                var deleteUrl = $(this).data('url');
+//                var deleteUrl = $(this)[0].dataset.url;
                 var $row = $(this).closest('tr');
-                var $totalWeightContainer = $table.find('.js-total-weight');
+                var $totalWeightContainer = this.$wrapper.find('.js-total-weight');
                 var newWeight = $totalWeightContainer.html() - $row.data('weight');
 
                 $.ajax({
@@ -100,7 +109,42 @@
                         $totalWeightContainer.html(newWeight);
                     }
                 })
-            });
+            },
+
+
+        };
+
+
+        $(document).ready(function () {
+            var $table = $('.js-rep-log-table');
+//
+//            $table.find('.js-delete-rep-log').on('click', function (e) {
+//                e.preventDefault();
+//                // e.stopPropagation();
+//                // e.target.className += ' text-danger';
+//
+//                $(this).addClass('text-danger');
+//                $(this).find('.fa')
+//                    .removeClass('fa-trash')
+//                    .addClass('fa-spinner')
+//                    .addClass('fa-spin');
+//
+//
+////                var deleteUrl = $(this).data('url');
+//                var deleteUrl = $(this)[0].dataset.url;
+//                var $row = $(this).closest('tr');
+//                var $totalWeightContainer = $table.find('.js-total-weight');
+//                var newWeight = $totalWeightContainer.html() - $row.data('weight');
+//
+//                $.ajax({
+//                    url: deleteUrl,
+//                    method: 'DELETE',
+//                    success: function () {
+//                        $row.fadeOut();
+//                        $totalWeightContainer.html(newWeight);
+//                    }
+//                })
+//            });
 
 //                    $.ajax({
 //                        url: deleteUrl,
@@ -112,8 +156,6 @@
 //                        });
 //                    })
 //                },
-
-
 
 
 //                console.log(e.currentTarget === this);
@@ -135,7 +177,7 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.1.0/sweetalert2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.1.0/sweetalert2.min.css"/>
 {% endblock %}
 
 {#{% block javascripts %}#}

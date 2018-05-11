@@ -157,5 +157,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="jquery-3.1.1" level="application" />
+    <orderEntry type="library" name="jquery-3.1.1" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
   </component>
 </module>

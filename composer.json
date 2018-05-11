@@ -52,7 +52,10 @@
         ],
         "post-update-cmd": [
             "@symfony-scripts"
-        ]
+        ],
+        "auto-scripts": {
+            "security-checker security:check": "script"
+        }
     },
     "extra": {
         "symfony-app-dir": "app",
